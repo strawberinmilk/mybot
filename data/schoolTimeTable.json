@@ -1,0 +1,38 @@
+{ "sunday" : null,
+  "monday":{
+    "time" : "1-4",
+    "lesson" : "ITストラテジ",
+    "room" : "30701",
+    "teacher" : "三嶌",
+    "item" : "IT戦略とマネジメント"
+  },
+  "tuesday":{
+    "time" : "1-2/3-6",
+    "lesson" : "コンピュータテクノロジ2/コンピュータテクノロジ1",
+    "room" : "30701",
+    "teacher" : "藤本/下川",
+    "item" : "ITワールド"
+  },
+  "wednesday" : {
+    "time" : "",
+    "lesson" : "",
+    "room" : "",
+    "teacher" : "",
+    "item" : ""
+  },
+  "thursday" : {
+    "time" : "",
+    "lesson" : "",
+    "room" : "",
+    "teacher" : "",
+    "item" : ""
+  },
+  "friday" : {
+    "time" : "",
+    "lesson" : "",
+    "room" : "",
+    "teacher" :"", 
+    "item" : ""
+  },
+  "saturday" : null
+}
