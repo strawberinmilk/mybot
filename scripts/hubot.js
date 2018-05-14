@@ -20,20 +20,20 @@ const sharpdate = (date) => {
 
 const getSchoolTimeTable = date => {
   date = sharpdate(date)
-  let data = " " + JSON.stringify(JSON.parse(fs.readFileSync("./data/schoolTimeTable.json", "utf8"))[date]).replace(/,/g, "\n ").replace(/"/g," ").replace(/{|}/g,"")
-  if(!!data){
+  let data = " " + JSON.stringify(JSON.parse(fs.readFileSync("./data/schoolTimeTable.json", "utf8"))[date]).replace(/,/g, "\n ").replace(/"/g, " ").replace(/{|}/g, "")
+  if (!!data) {
     return `${date}'s timeTable\n${data}`;
-  }else{
+  } else {
     return null
   }
 }
 
 const getWeekData = date => {
   date = sharpdate(date)
-  let data = " " + JSON.stringify(JSON.parse(fs.readFileSync("./data/weekData.json", "utf8"))[date]).replace(/,/g, ",\n  ").replace(/"/g," ")
-  if(!!data){
+  let data = " " + JSON.stringify(JSON.parse(fs.readFileSync("./data/weekData.json", "utf8"))[date]).replace(/,/g, ",\n  ").replace(/"/g, " ")
+  if (!!data) {
     return `${date}'s task\n${data}`;
-  }else{
+  } else {
     return null
   }
 }
@@ -61,44 +61,48 @@ getWeather().then(v => console.log(v))
 
 
 module.exports = async robot => {
-  
+
   //respond リプライ化が必要
   //hear 勝手に拾ってくれる
-const getAll = (date) => {
-  let reply = new Date + "\n"
-  if(getSchoolTimeTable(date)) reply += getSchoolTimeTable(date) + "\n"
-  if(getWeekData(date)) reply += getWeekData(date) + "\n"
-  getWeather().then(v => {
-    if(v) reply += v
-    robot.send({},reply)
-  })
-}
-
-robot.hear(/^!!$/i, function(msg) {
-  let date = new Date
-  date = date.getDay()
-  msg.send(etAll(date))
-});
-
-  robot.hear(/^![0-6]$/i, function(msg) {
-    let date = msg.message.text.replace(/!/,"")
+  const getAll = (date) => {
     let reply = new Date + "\n"
-    if(getSchoolTimeTable(date)) reply += getSchoolTimeTable(date) + "\n"
-    if(getWeekData(date)) reply += getWeekData(date) + "\n"
+    if (getSchoolTimeTable(date)) reply += getSchoolTimeTable(date) + "\n"
+    if (getWeekData(date)) reply += getWeekData(date) + "\n"
+    getWeather().then(v => {
+      if (v) reply += v
+      robot.send({ room: "#botchannel" }, reply)
+    })
+  }
+
+  robot.hear(/^!!$/i, function (msg) {
+    let date = new Date
+    date = date.getDay()
+    msg.send(etAll(date))
+  });
+
+  robot.hear(/^![0-6]$/i, function (msg) {
+    let date = msg.message.text.replace(/!/, "")
+    let reply = new Date + "\n"
+    if (getSchoolTimeTable(date)) reply += getSchoolTimeTable(date) + "\n"
+    if (getWeekData(date)) reply += getWeekData(date) + "\n"
     msg.reply(reply)
   });
 
-  robot.hear(/^!w/i,msg => {
+  robot.hear(/^!w$/i, msg => {
     getWeather().then(v => {
-      robot.send({},v)
+      robot.send({ room: "#botchannel" }, v)
     })
   })
 
-new cron('0 0 22 * * *', () => {
-  let date = new Date
-  date.setDate(date.getDate() + 1);
-  date = date.getDay()
-  getAll(date)
-}, null, true);
+  robot.hear(/^!-*h(elp)?$/i, msg => {
+    msg.send(`!(num) 曜日ごとの時間割と曜日タスクを返します/n!!今日の時間割、曜日タスク、天気を返します\n!w 天気を返します`)
+  })
+
+  new cron('0 0 22 * * *', () => {
+    let date = new Date
+    date.setDate(date.getDate() + 1);
+    date = date.getDay()
+    getAll(date)
+  }, null, true);
 
 };
