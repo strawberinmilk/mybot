@@ -77,7 +77,7 @@ module.exports = async robot => {
   robot.hear(/^!!$/i, function (msg) {
     let date = new Date
     date = date.getDay()
-    msg.send(etAll(date))
+    msg.send(getAll(date))
   });
 
   robot.hear(/^![0-6]$/i, function (msg) {
