@@ -14,25 +14,25 @@
     "item" : "ITワールド"
   },
   "wednesday" : {
-    "time" : "",
-    "lesson" : "",
-    "room" : "",
-    "teacher" : "",
-    "item" : ""
+    "time" : "1-2/3-6",
+    "lesson" : "IoTモノづくり実習/プログラミング基礎",
+    "room" : "30719/30718",
+    "teacher" : "下川&熱海/下川",
+    "item" : "PC/やさしいJAVA"
   },
   "thursday" : {
-    "time" : "",
-    "lesson" : "",
-    "room" : "",
-    "teacher" : "",
-    "item" : ""
+    "time" : "1-4",
+    "lesson" : "Office実習",
+    "room" : "30605",
+    "teacher" : "渡辺",
+    "item" : "PC"
   },
   "friday" : {
-    "time" : "",
-    "lesson" : "",
-    "room" : "",
-    "teacher" :"", 
-    "item" : ""
+    "time" : "1-2/3-4/5-6",
+    "lesson" : "アルゴリズムとデータ構造/資格対策講座1/コンピュータテクノロジ2",
+    "room" : "30701",
+    "teacher" :"下川/下川/藤本", 
+    "item" : "PC(バッテリ充電必須)/いTワールド/アルゴリズム問題集"
   },
   "saturday" : null
 }
