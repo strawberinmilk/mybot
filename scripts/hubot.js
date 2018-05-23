@@ -98,9 +98,16 @@ module.exports = async robot => {
     msg.send(`!(num) 曜日ごとの時間割と曜日タスクを返します/n!!今日の時間割、曜日タスク、天気を返します\n!w 天気を返します`)
   })
 
-  new cron('0 0 4/22 * * *', () => {
+  new cron('0 0 22 * * *', () => {
     let date = new Date
     date.setDate(date.getDate() + 1);
+    date = date.getDay()
+    getAll(date)
+  }, null, true);
+
+  new cron('0 0 4 * * *', () => {
+    let date = new Date
+    date.setDate(date.getDate());
     date = date.getDay()
     getAll(date)
   }, null, true);
