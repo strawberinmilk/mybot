@@ -1,10 +1,11 @@
 "use strict"
+//ネットないと死ぬけどプロセスは死なないしどのみちslackつながらないしいいよね...?
 const fs = require("fs");
 const cron = require("cron").CronJob;
 const request = require("request");
 const async = require('async');
 
-const sharpdate = (date) => {
+const sharpdate = date => {
   const dateList = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
   if (!date && date != 0) {
     date = new Date;
