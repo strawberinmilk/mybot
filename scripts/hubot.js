@@ -67,7 +67,7 @@ module.exports = async robot => {
   //hear 勝手に拾ってくれる
   const getAll = (date) => {
     let reply = new Date + "\n"
-    if (getSchoolTimeTable(date)) reply += getSchoolTimeTable(date) + "\n"
+  //  if (getSchoolTimeTable(date)) reply += getSchoolTimeTable(date) + "\n"
     if (getWeekData(date)) reply += getWeekData(date) + "\n"
     getWeather().then(v => {
       if (v) reply += v
@@ -84,7 +84,7 @@ module.exports = async robot => {
   robot.hear(/^![0-6]$/i, function (msg) {
     let date = msg.message.text.replace(/!/, "")
     let reply = new Date + "\n"
-    if (getSchoolTimeTable(date)) reply += getSchoolTimeTable(date) + "\n"
+  //  if (getSchoolTimeTable(date)) reply += getSchoolTimeTable(date) + "\n"
     if (getWeekData(date)) reply += getWeekData(date) + "\n"
     msg.reply(reply)
   });
