@@ -1,16 +1,16 @@
 "use strict"
 const request = require("request");
 const pin = 25;
-
+const fs = require('fs')
 module.exports = async robot => {
-  robot.hear(/^lighton$/i, function (msg) {
+  robot.hear(/lighton/i, function (msg) {
     request.get({
       url: `http://192.168.0.74:9001/?{"pin":${pin},"num":1}`,
     }, function (error, response, body) {
     })
     msg.send('ライトをつけます')
   });
-  robot.hear(/^lightoff$/i, function (msg) {
+  robot.hear(/lightoff/i, function (msg) {
     request.get({
       url: `http://192.168.0.74:9001/?{"pin":${pin},"num":0}`,
     }, function (error, response, body) {
