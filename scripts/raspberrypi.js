@@ -1,7 +1,7 @@
 "use strict"
 const request = require("request");
 const pin = 25;
-const fs = require('fs')
+
 module.exports = async robot => {
   robot.hear(/lighton/i, function (msg) {
     request.get({
