@@ -11,7 +11,7 @@ module.exports = async robot => {
   
     }catch(e){
     }
-    robot.send(r)
+    robot.send({ room: "#botchannel" }, r)
     res.writeHead(200, {'Content-Type': 'text/plain'});
     res.end("sucsess");
   }).listen(9002);
