@@ -1,0 +1,5 @@
+#!/bin/sh
+
+#HUBOT_SLACK_TOKEN=xoxb-183430065105-364135029959-nZpdbKFpDwwBBY1JClCEX2qr ./bin/hubot --adapter slack
+
+HUBOT_SLACK_TOKEN=xoxp-183430065105-183430065153-460480554166-c970a31e6c950c0e3d0985a1ee671a9c ./bin/hubot --adapter slack
