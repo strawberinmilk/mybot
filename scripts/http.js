@@ -7,11 +7,10 @@ module.exports = async robot => {
   http.createServer((req, res) => {
     let r;
     try{
-      r = decodeURIComponent(req.url.replace(/\/|\?/gi,""));
-  
+      r = JSON.parse(decodeURIComponent(req.url.replace(/\/|\?/gi,"")));
     }catch(e){
     }
-    robot.send({ room: "#botchannel" }, r)
+    robot.send({ room: r.channel }, r.text)
     res.writeHead(200, {'Content-Type': 'text/plain'});
     res.end("sucsess");
   }).listen(9002);
