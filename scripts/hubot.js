@@ -19,15 +19,16 @@ const sharpdate = date => {
   return date
 }
 
-const getSchoolTimeTable = date => {
-  date = sharpdate(date)
-  let data = " " + JSON.stringify(JSON.parse(fs.readFileSync("./data/schoolTimeTable.json", "utf8"))[date]).replace(/,/g, "\n ").replace(/"/g, " ").replace(/{|}/g, "")
-  if (!!data) {
-    return `${date}'s timeTable\n${data}`;
-  } else {
-    return null
-  }
-}
+//多分永遠に復活しないけど資産として
+//const getSchoolTimeTable = date => {
+//  date = sharpdate(date)
+//  let data = " " + JSON.stringify(JSON.parse(fs.readFileSync("./data/schoolTimeTable.json", "utf8"))[date]).replace(/,/g, "\n ").replace(/"/g, " ").replace(/{|}/g, "")
+//  if (!!data) {
+//    return `${date}'s timeTable\n${data}`;
+//  } else {
+//    return null
+//  }
+//}
 
 const getWeekData = date => {
   date = sharpdate(date)
@@ -71,14 +72,18 @@ module.exports = async robot => {
     if (getWeekData(date)) reply += getWeekData(date) + "\n"
     getWeather().then(v => {
       if (v) reply += v
-      robot.send({ room: "#botchannel" }, reply)
+      if(msg){
+        msg.send(reply)
+      }else{
+        robot.send({ room: "#news" }, reply)        
+      }
     })
   }
 
   robot.hear(/^!!$/i, function (msg) {
     let date = new Date
     date = date.getDay()
-    msg.send(getAll(date))
+    getAll(date,msg)
   });
 
   robot.hear(/^![0-6]$/i, function (msg) {
@@ -91,7 +96,7 @@ module.exports = async robot => {
 
   robot.hear(/^!w$/i, msg => {
     getWeather().then(v => {
-      robot.send({ room: "#botchannel" }, v)
+      msg.send(v)
     })
   })
 
