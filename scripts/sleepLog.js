@@ -27,8 +27,8 @@ module.exports = async robot => {
     text += msg.message.text.match(/poyashimi/gi) ? "就寝" : "起床"
     text += `,${hou}:${min}:${sec}`
     text += "\n"
-    fs.appendFileSync("./data/sleeplog.csv",text,"utf8")
-    fs.writeFileSync("./data/sleeplogLast.txt",new Date,"utf8")
+    fs.appendFileSync("./data/sleepLog.csv",text,"utf8")
+    fs.writeFileSync("./data/sleepLogLast.txt",new Date,"utf8")
     msg.send(text)
   });
 }
