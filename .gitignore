@@ -5,3 +5,5 @@ start.sh
 .vscode/*
 
 data/todo.json
+data/sleepLog.csv
+data/sleepLogLast.txt
