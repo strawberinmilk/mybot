@@ -50,10 +50,10 @@ const getWeather = async () => {
         let tmp = JSON.parse(body).forecasts[i]
         if (tmp) {
           weatherData += `${tmp.date}\n  weather : ${tmp.telop}\n`
-          tmp.telop.match(/雪/gi) weatherData += " :snowflake: "
-          tmp.telop.match(/雨/gi) weatherData += " :umbrella_with_rain_drops: "
-          tmp.telop.match(/雲/gi) weatherData += " :cloud: "
-          tmp.telop.match(/晴/gi) weatherData += " :sunny: "
+          if(tmp.telop.match(/雪/gi)) weatherData += " :snowflake: "
+          if(tmp.telop.match(/雨/gi)) weatherData += " :umbrella_with_rain_drops: "
+          if(tmp.telop.match(/雲/gi)) weatherData += " :cloud: "
+          if(tmp.telop.match(/晴/gi)) weatherData += " :sunny: "
           if (tmp.temperature.max) weatherData += `  Highest temperature : ${tmp.temperature.max.celsius}℃\n`
           if (tmp.temperature.min) weatherData += `  Lowest Temperature : ${tmp.temperature.min.celsius}℃\n`
         }
