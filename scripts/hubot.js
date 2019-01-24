@@ -50,6 +50,10 @@ const getWeather = async () => {
         let tmp = JSON.parse(body).forecasts[i]
         if (tmp) {
           weatherData += `${tmp.date}\n  weather : ${tmp.telop}\n`
+          tmp.telop.match(/雪/gi) weatherData += :snowflake: 
+          tmp.telop.match(/雨/gi) weatherData += :umbrella_with_rain_drops: 
+          tmp.telop.match(/雲/gi) weatherData += :cloud: 
+          tmp.telop.match(/晴/gi) weatherData += :sunny: 
           if (tmp.temperature.max) weatherData += `  Highest temperature : ${tmp.temperature.max.celsius}℃\n`
           if (tmp.temperature.min) weatherData += `  Lowest Temperature : ${tmp.temperature.min.celsius}℃\n`
         }
@@ -66,7 +70,7 @@ module.exports = async robot => {
 
   //respond リプライ化が必要
   //hear 勝手に拾ってくれる
-  const getAll = (date) => {
+  const getAll = (date,msg) => {
     let reply = new Date + "\n"
   //  if (getSchoolTimeTable(date)) reply += getSchoolTimeTable(date) + "\n"
     if (getWeekData(date)) reply += getWeekData(date) + "\n"
@@ -105,6 +109,7 @@ module.exports = async robot => {
   })
 
   new cron('0 0 22 * * *', () => {
+//  new cron('* * * * * *', () => {
     let date = new Date
     date.setDate(date.getDate() + 1);
     date = date.getDay()
@@ -112,6 +117,7 @@ module.exports = async robot => {
   }, null, true);
 
   new cron('0 0 4 * * *', () => {
+//  new cron('* * * * * *', () => {
     let date = new Date
     date.setDate(date.getDate());
     date = date.getDay()
