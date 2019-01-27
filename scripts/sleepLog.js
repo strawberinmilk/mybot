@@ -7,28 +7,21 @@ module.exports = async robot => {
     }catch(e){
       lastTime = new Date()
     }
-    let nowTime = new Date()
-    lastTime = lastTime.getTime()
-    nowTime = nowTime.getTime()
-    let sec = Math.floor((nowTime-lastTime)/1000)
+    let nowTime = msg.message.text.match(/-d/gi) ? new Date(msg.message.text.replace(/.+\-d\s+/,"")+"") : new Date()
+    let sec = Math.floor((nowTime.getTime()-lastTime.getTime())/1000)
     let min = 0
     let hou = 0
-    for(hou=0;60*60<=sec;hou++){
-      sec = sec-60*60
-    }
-    for(min=0;60<=sec;min++){
-      sec = sec-60
-    }
+    for(hou=0;60*60<=sec;hou++) sec = sec-60*60
+    for(min=0;   60<=sec;min++) sec = sec-60
     if(min<10) min = "0"+min
     if(sec<10) sec = "0"+sec
-
     let text
-    text  = `${new Date},`
+    text  = `${nowTime.toString()},`
     text += msg.message.text.match(/poyashimi/gi) ? "就寝" : "起床"
     text += `,${hou}:${min}:${sec}`
     text += "\n"
     fs.appendFileSync("./data/sleepLog.csv",text,"utf8")
-    fs.writeFileSync("./data/sleepLogLast.txt",new Date,"utf8")
+    fs.writeFileSync("./data/sleepLogLast.txt",nowTime.toString(),"utf8")
     msg.send(text)
   });
 }
