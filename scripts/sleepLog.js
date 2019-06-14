@@ -1,9 +1,13 @@
 const fs = require("fs")
 module.exports = async robot => {
   robot.hear(/sleepLog/gi, function (msg) {
+    if(msg.message.text.match(/dump/gi)){
+      msg.send(fs.readFileSync("./data/sleepLog.csv","utf8"))
+      return
+    }
     let lastTime
     try{
-      lastTime = new Date(fs.readFileSync("./data/sleepLogLast.txt","utf8"))
+      lastTime = new Date(fs.readFileSync("./data/lastSleepLog.txt","utf8"))
     }catch(e){
       lastTime = new Date()
     }
@@ -20,8 +24,10 @@ module.exports = async robot => {
     text += msg.message.text.match(/poyashimi/gi) ? "就寝" : "起床"
     text += `,${hou}:${min}:${sec}`
     text += "\n"
-    fs.appendFileSync("./data/sleepLog.csv",text,"utf8")
-    fs.writeFileSync("./data/sleepLogLast.txt",nowTime.toString(),"utf8")
+    if(!msg.message.text.match(/now/gi)){
+      fs.appendFileSync("./data/sleepLog.csv",text,"utf8")
+      fs.writeFileSync("./data/lastSleepLog.txt",nowTime.toString(),"utf8")
+    }
     msg.send(text)
-  });
+  })
 }
