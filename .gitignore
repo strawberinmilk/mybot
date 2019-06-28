@@ -9,3 +9,5 @@ start3.sh
 data/todo.json
 data/sleepLog.csv
 data/sleepLogLast.txt
+
+scripts/ignore.js

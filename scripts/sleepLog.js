@@ -23,5 +23,8 @@ module.exports = async robot => {
     fs.appendFileSync("./data/sleepLog.csv",text,"utf8")
     fs.writeFileSync("./data/sleepLogLast.txt",nowTime.toString(),"utf8")
     msg.send(text)
-  });
+    if(msg.message.text.match(/pokita/gi)){
+      require('wake_on_lan').wake(require('./ignore.js').asus_windws_macadress)
+    }
+  })
 }

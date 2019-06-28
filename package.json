@@ -22,7 +22,8 @@
     "hubot-scripts": "^2.17.2",
     "hubot-shipit": "^0.2.1",
     "hubot-slack": "^4.5.5",
-    "request": "^2.85.0"
+    "request": "^2.85.0",
+    "wake_on_lan": "^1.0.0"
   },
   "engines": {
     "node": "0.10.x"
