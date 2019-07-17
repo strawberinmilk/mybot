@@ -10,4 +10,5 @@ data/todo.json
 data/sleepLog.csv
 data/sleepLogLast.txt
 data/lastSleepLog.txt
+data/lifelog.csv
 scripts/ignore.js
