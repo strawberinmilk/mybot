@@ -7,7 +7,12 @@ module.exports = async robot => {
     }
     let lastTime
     try{
-      lastTime = new Date(fs.readFileSync("./data/lastSleepLog.txt","utf8"))
+      if(msg.message.text.match(/pokita/gi)){
+        lastTime = new Date(fs.readFileSync("./data/temp/lastpoyashimi.txt","utf8"))
+      }else{
+        lastTime = new Date(fs.readFileSync("./data/temp/lastSleepLog.txt","utf8"))
+      }
+      console.log
     }catch(e){
       lastTime = new Date()
     }
@@ -20,17 +25,25 @@ module.exports = async robot => {
     if(min<10) min = "0"+min
     if(sec<10) sec = "0"+sec
     let text
-    text  = `${nowTime.toString()},`
+//    text  = `${nowTime.toString()},`
+    text  = `${nowTime.toJSON()},`
     text += msg.message.text.match(/poyashimi/gi) ? "就寝" : "起床"
     text += `,${hou}:${min}:${sec}`
     text += "\n"
-    if(!msg.message.text.match(/now/gi)){
-      fs.appendFileSync("./data/sleepLog.csv",text,"utf8")
-      fs.writeFileSync("./data/lastSleepLog.txt",nowTime.toString(),"utf8")
-    }
     msg.send(text)
+    if(msg.message.text.match(/now/gi)){
+      return
+    }
+    fs.writeFileSync('./data/temp/lastSleepLog.txt',nowTime.toJSON(),'utf8')
     if(msg.message.text.match(/pokita/gi)){
       require('wake_on_lan').wake(require('./ignore.js').asus_windws_macadress)
+      fs.writeFileSync('./data/temp/lastpoyashimitemp.txt',text,'utf8')
+    }
+    if(msg.message.text.match(/poyashimi/gi)){
+      fs.appendFileSync("./data/sleepLog.csv",`${fs.readFileSync('./data/temp/lastpoyashimitemp.txt','utf8')}`,"utf8")
+      fs.writeFileSync('./data/temp/lastpoyashimitemp.txt','','utf8')
+      fs.appendFileSync("./data/sleepLog.csv",text,"utf8")
+      fs.writeFileSync("./data/temp/lastpoyashimi.txt",nowTime.toJSON(),"utf8")
     }
   })
 }

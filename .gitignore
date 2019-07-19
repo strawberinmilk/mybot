@@ -12,3 +12,6 @@ data/sleepLogLast.txt
 data/lastSleepLog.txt
 data/lifelog.csv
 scripts/ignore.js
+
+data/temp/*
+!data/temp/.keep

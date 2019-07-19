@@ -1,6 +1,6 @@
 
-const http = require('http');
-
+const http = require('http')
+const lifelog = require('./lifelog.js')
 
 module.exports = async robot => {
 
@@ -11,6 +11,7 @@ module.exports = async robot => {
     }catch(e){
     }
     robot.send({ room: r.channel }, r.text)
+    if(r.text.match(/doorlog/gi))lifelog.lifelog()
     res.writeHead(200, {'Content-Type': 'text/plain'});
     res.end("sucsess");
   }).listen(9002);
