@@ -32,6 +32,22 @@ module.exports = async robot => {
     check()
   }
 
+  
+  //leavearrive
+  robot.hear(/lalog/gi,msg=>{
+    console.log('lalog')
+    let text = msg.message.text
+    fs.appendFileSync('./data/lalog.csv',`${(new Date).toLocaleString()},${text},\n`,'utf8')
+    if(text.match(/reave/gi)){
+      setTimeout(()=>{
+        request.get({
+          url: `http://192.168.0.62:9001/?{"pin":${pin},"num":1}`,
+        }, (error, response, body)=> {
+        })
+      },600000)
+    }
+  })
+
   robot.hear(/lifelog dump/gi ,(msg)=>{
     msg.send(fs.readFileSync('./data/lifelog.csv','utf8'))
   })
