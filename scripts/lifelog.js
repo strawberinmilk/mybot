@@ -5,6 +5,8 @@ let wifiConnect = null
 let wifiTime = 0
 let doorTime = 0
 
+let leave = false
+
 const log = text =>{
   fs.appendFileSync('./data/lifelog.csv',`${(new Date).toLocaleString()},${text},\n`,'utf8')
 }
@@ -34,19 +36,21 @@ module.exports = async robot => {
 
   
   //leavearrive
-  robot.hear(/lalog/gi,msg=>{
-    console.log('lalog')
-    let text = msg.message.text
-    fs.appendFileSync('./data/lalog.csv',`${(new Date).toLocaleString()},${text},\n`,'utf8')
-    if(text.match(/reave/gi)){
-      setTimeout(()=>{
-        request.get({
-          url: `http://192.168.0.62:9001/?{"pin":${pin},"num":1}`,
-        }, (error, response, body)=> {
-        })
-      },600000)
-    }
+  robot.hear(/leave/gi,msg=>{
+    console.log('leave')
+    leave = true
+    //let text = msg.message.text
+    //fs.appendFileSync('./data/lalog.csv',`${(new Date).toLocaleString()},${text},\n`,'utf8')
+    //if(text.match(/reave/gi)){
+    //  setTimeout(()=>{
+    //    request.get({
+    //      url: `http://192.168.0.62:9001/?{"pin":${pin},"num":1}`,
+    //    }, (error, response, body)=> {
+    //    })
+    //  },600000)
+    //}
   })
+  
 
   robot.hear(/lifelog dump/gi ,(msg)=>{
     msg.send(fs.readFileSync('./data/lifelog.csv','utf8'))
@@ -61,7 +65,14 @@ module.exports = async robot => {
     console.log(r)
     robot.send({ room: r.channel }, r.text)
     if(r.text.match(/doorlog/gi)) doorlog(r.text)
-    res.writeHead(200, {'Content-Type': 'text/plain'});
+    if(r.text.match(/close/gi && leave)){
+      leave = false
+        request.get({
+        url: `http://192.168.0.62:9001/?{"pin":${pin},"num":1}`,
+      }, (error, response, body)=> {
+      })
+    }
+    res.writeHead(200, {'Content-Type': 'text/plain'})
     res.end("sucsess")
   }).listen(9002)
 
