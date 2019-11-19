@@ -58,7 +58,7 @@ module.exports = async robot => {
     leave = setTimeout(()=>{
       fs.appendFileSync('./data/lalog.csv',`${(new Date).toLocaleString()},leave,\n`,'utf8')
       request.get({
-        url: `http://192.168.0.62:9001/?{"pin":${pin},"num":1}`,
+        url: `http://192.168.0.62:9001/?{"pin":${pin},"num":0}`,
       }, (error, response, body)=> {
       })
       clearTimeout(leave)
