@@ -8,6 +8,7 @@ let wifiConnect = null
 let wifiTime = 0
 let doorTime = 0
 let leave = false
+let leaveTimeout = null
 
 const log = text =>{
   fs.appendFileSync('./data/lifelog.csv',`${(new Date).toLocaleString()},${text},\n`,'utf8')
@@ -54,17 +55,18 @@ module.exports = async robot => {
   
   //leave
   robot.hear(/leave/gi,msg=>{
-    clearTimeout(leave)
-    leave = setTimeout(()=>{
+    clearTimeout(leaveTimeout)
+    leaveTimeout = setTimeout(()=>{
       fs.appendFileSync('./data/lalog.csv',`${(new Date).toLocaleString()},leave,\n`,'utf8')
       request.get({
         url: `http://192.168.0.62:9001/?{"pin":${pin},"num":0}`,
       }, (error, response, body)=> {
       })
-      clearTimeout(leave)
-      leave = 'leave'
-    },600000)
-    msg.send('leave')
+      //clearTimeout(leaveTimeout)
+      leave = true
+      robot.send({ room: '#botchannel' }, 'leaveコマンドにより消灯')   
+      },600000)
+  　　msg.send('10分後に消灯手配しました')
   })
 
   robot.hear(/lifelog dump/gi ,(msg)=>{
@@ -80,12 +82,13 @@ module.exports = async robot => {
     console.log(r)
     robot.send({ room: r.channel }, r.text)
     if(r.text.match(/doorlog/gi)) doorlog(r.text)
-    if(r.text.match(/close/gi && leave==='leave')){
-      clearTimeout(leave)
-      leave = 'arrive'
+    if(r.text.match(/open/gi && leave)){
+      clearTimeout(leaveTimeout)
+      leave = false
         request.get({
         url: `http://192.168.0.62:9001/?{"pin":${pin},"num":1}`,
       }, (error, response, body)=> {
+        robot.send({ room: '#botchannel' }, 'leave===true&&doorOpenにより点灯')   
       })
     }
     res.writeHead(200, {'Content-Type': 'text/plain'})
