@@ -23,14 +23,16 @@ module.exports = async robot => {
 
   robot.hear(/lighton/i, (msg) => {
     request.get({
-      url: `http://192.168.0.62:9001/?{"pin":${pin},"num":1}`,
+      //url: `http://192.168.0.62:9001/?{"pin":${pin},"num":1}`,
+      url: `http://192.168.0.62:9001/lighton`,
     }, (error, response, body) => {
     })
     msg.send('ライトをつけます')
   })
   robot.hear(/lightoff/i, (msg) => {
     request.get({
-      url: `http://192.168.0.62:9001/?{"pin":${pin},"num":0}`,
+      //url: `http://192.168.0.62:9001/?{"pin":${pin},"num":0}`,
+      url: `http://192.168.0.62:9001/lightoff`,
     }, (error, response, body) => {
     })
     msg.send('ライトを消します')
@@ -59,10 +61,10 @@ module.exports = async robot => {
     leaveTimeout = setTimeout(()=>{
       fs.appendFileSync('./data/lalog.csv',`${(new Date).toLocaleString()},leave,\n`,'utf8')
       request.get({
-        url: `http://192.168.0.62:9001/?{"pin":${pin},"num":0}`,
+        //url: `http://192.168.0.62:9001/?{"pin":${pin},"num":0}`,
+        url: `http://192.168.0.62:9001/lightoff`,
       }, (error, response, body)=> {
       })
-      //clearTimeout(leaveTimeout)
       leave = true
       robot.send({ room: '#botchannel' }, 'leaveコマンドにより消灯')   
       },600000)
@@ -80,13 +82,17 @@ module.exports = async robot => {
     }catch(e){
     }
     console.log(r)
+    //test
+    robot.send({ room: test },JSON.stringify(r) )
+    //test
     robot.send({ room: r.channel }, r.text)
     if(r.text.match(/doorlog/gi)) doorlog(r.text)
     if(r.text.match(/open/gi && leave)){
       clearTimeout(leaveTimeout)
       leave = false
-        request.get({
-        url: `http://192.168.0.62:9001/?{"pin":${pin},"num":1}`,
+      request.get({
+        //url: `http://192.168.0.62:9001/?{"pin":${pin},"num":1}`,
+        url: `http://192.168.0.62:9001/lighton`,
       }, (error, response, body)=> {
         robot.send({ room: '#botchannel' }, 'leave===true&&doorOpenにより点灯')   
       })
