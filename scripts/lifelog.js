@@ -83,7 +83,7 @@ module.exports = async robot => {
     }
     console.log(r)
     //test
-    robot.send({ room: test },JSON.stringify(r) )
+    robot.send({ room: 'test' },JSON.stringify(r) )
     //test
     robot.send({ room: r.channel }, r.text)
     if(r.text.match(/doorlog/gi)) doorlog(r.text)
