@@ -78,7 +78,7 @@ module.exports = async robot => {
   http.createServer((req, res) => {
     let r
     try{
-      r = JSON.parse(decodeURIComponent(req.url.replace(/\/|\?/gi,"")))
+      r = JSON.parse(decodeURIComponent(req.url.replace(/\/|\?/gi,'')))
     }catch(e){
     }
     console.log(r)
