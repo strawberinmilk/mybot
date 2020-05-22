@@ -1,4 +1,5 @@
 const fs = require("fs")
+const request = require('request')
 
 fs.appendFileSync('./data/sleepLog.csv','','utf8')
 fs.appendFileSync('./data/temp/lastpoyashimitemp.txt','','utf8')
@@ -41,14 +42,22 @@ module.exports = async robot => {
     }
     fs.writeFileSync('./data/temp/lastSleepLog.txt',nowTime.toLocaleString(),'utf8')
     if(msg.message.text.match(/pokita/gi)){
-      require('wake_on_lan').wake(require('./ignore.js').asus_windws_macadress)
+      //require('wake_on_lan').wake(require('./ignore.js').asus_windws_macadress)
       fs.writeFileSync('./data/temp/lastpoyashimitemp.txt',text,'utf8')
+      request.get({
+        url: `http://192.168.0.62:9001/?{"signal":"status","sleep":false}`,
+      }, (error, response, body)=>{
+      })
     }
     if(msg.message.text.match(/poyashimi/gi)){
       fs.appendFileSync("./data/sleepLog.csv",`${fs.readFileSync('./data/temp/lastpoyashimitemp.txt','utf8')}`,"utf8")
       fs.writeFileSync('./data/temp/lastpoyashimitemp.txt','','utf8')
       fs.appendFileSync("./data/sleepLog.csv",text,"utf8")
       fs.writeFileSync("./data/temp/lastpoyashimi.txt",nowTime.toLocaleString(),"utf8")
+      request.get({
+        url: `http://192.168.0.62:9001/?{"signal":"status","sleep":true}`,
+      }, (error, response, body)=>{
+      })
     }
   })
 }
