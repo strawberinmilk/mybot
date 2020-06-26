@@ -2,7 +2,7 @@ const fs = require('fs')
 const http = require('http')
 const request = require('request')
 
-const pin = 25
+//const pin = 25
 
 let wifiConnect = null
 let wifiTime = 0
@@ -36,6 +36,18 @@ module.exports = async robot => {
     }, (error, response, body) => {
     })
     msg.send('ライトを消します')
+  })
+
+  robot.hear(/lightcode/i, (msg) => {
+    const msgText = msg.message.text.replace(/\D/gi,'').split('')
+    let query = ''
+    for(let i=0;i<msgText.length;i++) query += `"light${i+1}":${msgText[i]},`
+    query = query.replace(/,$/,'')
+    request.get({
+      url: `http://192.168.0.62:9001/?{"signal":"light",${query}}`,
+    }, (error, response, body) => {
+    })
+    msg.send(`${msg.message.text} 実行します`)
   })
 
   //robot.hear(/wifilog/gi,msg=>{
